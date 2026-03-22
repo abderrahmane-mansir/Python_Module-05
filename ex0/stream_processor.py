@@ -113,6 +113,21 @@ def main() -> None:
     except Exception as e:
         print(f"An error occurred in Log Processor: {e}\n")
 
+    print("=== Polymorphic Processing Demo ===\n")
+    print("Processing multiple data types through same interface...")
+
+    tasks = [
+        (NumericProcessor(), [1, 2, 3]),
+        (TextProcessor(), "Hello World!"),
+        (LogProcessor(), "INFO: System ready")
+    ]
+
+    for i, (processor, data) in enumerate(tasks, 1):
+        result = processor.format_output(data)
+        print(f"Result {i}: {result}")
+
+    print("\nFoundation systems online. Nexus ready for advanced streams.")
+
 
 if __name__ == "__main__":
     try:
