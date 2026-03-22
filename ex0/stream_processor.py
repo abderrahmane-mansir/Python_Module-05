@@ -29,7 +29,7 @@ class NumericProcessor(DataProcessor):
             raise ValueError("Invalid data for NumericProcessor")
         ln = len(data)
         sm = sum(x for x in data)
-        ag = sm/ln
+        ag = sm / ln
         return f"Processed {ln} numeric values, sum={sm}, avg={ag}"
 
 
@@ -65,14 +65,13 @@ class LogProcessor(DataProcessor):
     def format_output(self, data: str) -> str:
         if not self.validate(data):
             raise ValueError("Invalid data for LogProcessor")
-        type = (
+        log_type = (
                     "ALERT" if "ERROR" in data
                     else "WARNING" if "WARNING" in data
                     else "INFO"
-                )
-        event = data.split(":")[0]
-        msg = data.split(":")[1]
-        return f"[{type}] {event} level detected:{msg}"
+                    )
+        event, msg = data.split(":", 1)
+        return f"[{log_type}] {event} level detected:{msg}"
 
 
 def main() -> None:
