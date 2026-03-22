@@ -58,13 +58,18 @@ class LogProcessor(DataProcessor):
 
     def validate(self, data: Any) -> bool:
         is_str = isinstance(data, str)
-        has_log_level = any(level in data for level in ["ERROR", "WARNING", "INFO"])
+        has_log_level = any(level in data for level in
+                            ["ERROR", "WARNING", "INFO"])
         return is_str and has_log_level
 
     def format_output(self, data: str) -> str:
         if not self.validate(data):
             raise ValueError("Invalid data for LogProcessor")
-        type = "ALERT" if "ERROR" in data else "WARNING" if "WARNING" in data else "INFO"
+        type = (
+                    "ALERT" if "ERROR" in data
+                    else "WARNING" if "WARNING" in data
+                    else "INFO"
+                )
         event = data.split(":")[0]
         msg = data.split(":")[1]
         return f"[{type}] {event} level detected:{msg}"
