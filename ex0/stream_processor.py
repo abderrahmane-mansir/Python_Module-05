@@ -22,14 +22,25 @@ class NumericProcessor(DataProcessor):
         return f"Processed data: {data}"
 
     def validate(self, data: Any) -> bool:
-        return isinstance(data, list)
+        if isinstance(data, (int, float)):
+            return True
 
-    def format_output(self, data: List[int]) -> str:
+        if isinstance(data, list):
+            return all(isinstance(x, (int, float)) for x in data)
+
+        return False
+
+    def format_output(self, data: Any) -> str:
         if not self.validate(data):
             raise ValueError("Invalid data for NumericProcessor")
+
+        if isinstance(data, (int, float)):
+            return f"Processed single numeric value: {data}"
+
         ln = len(data)
-        sm = sum(x for x in data)
+        sm = sum(data)
         ag = sm / ln
+
         return f"Processed {ln} numeric values, sum={sm}, avg={ag}"
 
 
