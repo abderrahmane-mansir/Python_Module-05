@@ -215,7 +215,8 @@ def main() -> None:
     print("Processing Stream data through same pipeline...")
     print("Input: Real-time sensor stream")
     print("Transform: Aggregated and filtered")
-    print(manager.process_with_pipeline(stream_adapter, stream_data), end="\n\n")
+    print(manager.process_with_pipeline(stream_adapter, stream_data),
+          end="\n\n")
 
     print("=== Pipeline Chaining Demo ===")
     print("Pipeline A -> Pipeline B -> Pipeline C")
