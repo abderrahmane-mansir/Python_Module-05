@@ -22,11 +22,11 @@ class NumericProcessor(DataProcessor):
         return f"Processed data: {data}"
 
     def validate(self, data: Any) -> bool:
-        if isinstance(data, (int, float)):
+        if data.__class__ in [int, float]:
             return True
 
-        if isinstance(data, list):
-            return all(isinstance(x, (int, float)) for x in data)
+        if data.__class__ == list:
+            return all(x.__class__ in [int, float] for x in data)
 
         return False
 
@@ -34,7 +34,7 @@ class NumericProcessor(DataProcessor):
         if not self.validate(data):
             raise ValueError("Invalid data for NumericProcessor")
 
-        if isinstance(data, (int, float)):
+        if data.__class__ in [int, float]:
             return f"Processed single numeric value: {data}"
 
         ln = len(data)
@@ -51,7 +51,7 @@ class TextProcessor(DataProcessor):
         return f"Processed text data: {data}"
 
     def validate(self, data: Any) -> bool:
-        return isinstance(data, str)
+        return data.__class__ == str
 
     def format_output(self, data: str) -> str:
         if not self.validate(data):
@@ -68,7 +68,7 @@ class LogProcessor(DataProcessor):
         return f"Processed log data: {data}"
 
     def validate(self, data: Any) -> bool:
-        is_str = isinstance(data, str)
+        is_str = data.__class__ == str
         has_log_level = any(level in data for level in
                             ["ERROR", "WARNING", "INFO"])
         return is_str and has_log_level
